@@ -1,8 +1,9 @@
-from autogluon.tabular import TabularPredictor, TabularDataset
-import pandas as pd
-from sklearn.model_selection import train_test_split
-import streamlit as st
 from datetime import datetime
+
+import pandas as pd
+import streamlit as st
+from autogluon.tabular import TabularDataset, TabularPredictor
+from sklearn.model_selection import train_test_split
 
 # wczytaj dataset
 df = pd.read_csv("vehicles.csv", nrows=10000)
@@ -171,7 +172,6 @@ with st.form("car"):
 # ℹ️ Sidebar info
 st.sidebar.header("ℹ️ O aplikacji")
 st.sidebar.write("""
-Aplikacja wykorzystuje model AI (AutoGluon), który analizuje dane techniczne pojazdu 
+Aplikacja wykorzystuje model AI (AutoGluon), który analizuje dane techniczne pojazdu
 i przewiduje jego wartość rynkową.
 """)
-
