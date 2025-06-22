@@ -1,8 +1,8 @@
 import streamlit as st
 import pandas as pd
-from autogluon.common import TabularDataset
+#from autogluon.common import TabularDataset
 from autogluon.tabular import TabularPredictor
-from sklearn.model_selection import train_test_split
+#from sklearn.model_selection import train_test_split
 
 # wczytaj dataset
 # df = pd.read_csv("vehicles.csv", nrows=10000)
