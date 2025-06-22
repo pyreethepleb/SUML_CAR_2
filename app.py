@@ -5,11 +5,11 @@ from autogluon.tabular import TabularPredictor
 from sklearn.model_selection import train_test_split
 
 # wczytaj dataset
-df = pd.read_csv("vehicles.csv", nrows=10000)
-df.drop(["id", "url", "region", "region_url", "image_url", "VIN", "description", "county", "lat", "long", "posting_date"], axis=1, inplace=True)
-# train test split
-train_df, test_df = train_test_split(df, test_size=0.2, random_state=42)
-train_data = TabularDataset(train_df)
+# df = pd.read_csv("vehicles.csv", nrows=10000)
+# df.drop(["id", "url", "region", "region_url", "image_url", "VIN", "description", "county", "lat", "long", "posting_date"], axis=1, inplace=True)
+# # train test split
+# train_df, test_df = train_test_split(df, test_size=0.2, random_state=42)
+# train_data = TabularDataset(train_df)
 
 # odkomentuj aby trenować model - aktualne trenowanie na 10000 rekordów dla szybkości, dla lepszych wyników można: - dać więcej danych - zwiększyć preset na good/high -zwiększyć limit czasu
 #predictor = TabularPredictor(label="price", path="models").fit(train_data, presets="medium_quality", time_limit=600, excluded_model_types=['RF', 'XT'])
