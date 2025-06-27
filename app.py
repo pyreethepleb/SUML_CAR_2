@@ -2,26 +2,44 @@ import pandas as pd
 import streamlit as st
 from autogluon.common import TabularDataset
 from autogluon.tabular import TabularPredictor
+from sklearn.model_selection import train_test_split
 
-# from sklearn.model_selection import train_test_split
+train = False
 
-# wczytaj dataset
-# df = pd.read_csv("vehicles.csv", nrows=10000)
-# df.drop(["id", "url", "region", "region_url", "image_url", "VIN", "description",
-# "county", "lat", "long", "posting_date"], axis=1, inplace=True)
-# # train test split
-# train_df, test_df = train_test_split(df, test_size=0.2, random_state=42)
-# train_data = TabularDataset(train_df)
+if train:
+    df = pd.read_csv("vehicles.csv", nrows=10000)
+    df.drop(
+        [
+            "id",
+            "url",
+            "region",
+            "region_url",
+            "image_url",
+            "VIN",
+            "description",
+            "county",
+            "lat",
+            "long",
+            "posting_date",
+        ],
+        axis=1,
+        inplace=True,
+    )
+    # train test split
+    train_df, test_df = train_test_split(df, test_size=0.2, random_state=42)
+    train_data = TabularDataset(train_df)
 
-# odkomentuj aby trenować model - aktualne trenowanie na 10000 rekordów dla szybkości,
-# dla lepszych wyników można: - dać więcej danych - zwiększyć preset na good/high -zwiększyć limit czasu
-# predictor = TabularPredictor(label="price", path="models").fit(train_data, presets="medium_quality",
-# time_limit=600, excluded_model_types=['RF', 'XT'])
-# Wczytaj model
+    # odkomentuj aby trenować model - aktualne trenowanie na 10000 rekordów dla szybkości,
+    # dla lepszych wyników można: - dać więcej danych - zwiększyć preset na good/high -zwiększyć limit czasu
+    predictor = TabularPredictor(label="price", path="models").fit(
+        train_data,
+        presets="medium_quality",
+        time_limit=600,
+        excluded_model_types=["RF", "XT"],
+    )
+
 predictor = TabularPredictor.load("models")
-# Zmień ścieżkę, jeśli model masz gdzie indziej
 
-# Konfiguracja strony
 st.set_page_config(page_title="AI Wycena Samochodu", page_icon="🚗")
 st.title("🧠 AI Wycena Samochodu")
 st.write("Wprowadź dane pojazdu, aby uzyskać szacunkową cenę rynkową.")
