@@ -1,6 +1,6 @@
 import pandas as pd
 import streamlit as st
-# from autogluon.common import TabularDataset
+from autogluon.common import TabularDataset
 from autogluon.tabular import TabularPredictor
 
 # from sklearn.model_selection import train_test_split
