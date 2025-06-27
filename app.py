@@ -107,9 +107,7 @@ if submitted:
         else:
             with st.spinner("Obliczanie szacunkowej wartości..."):
                 prediction = predictor.predict(input_data)
-                predicted_value = int(
-                    round(prediction.values[0])
-                )
+                predicted_value = int(round(prediction.values[0]))
                 st.success(f"💰 Szacunkowa wartość pojazdu: **{predicted_value} USD**")
     except Exception as e:
         st.error(f"Wystąpił błąd podczas predykcji: {e}")
