@@ -1,6 +1,5 @@
 import pandas as pd
 import streamlit as st
-
 # from autogluon.common import TabularDataset
 from autogluon.tabular import TabularPredictor
 
