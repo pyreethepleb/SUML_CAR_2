@@ -26,7 +26,6 @@ st.set_page_config(page_title="AI Wycena Samochodu", page_icon="🚗")
 st.title("🧠 AI Wycena Samochodu")
 st.write("Wprowadź dane pojazdu, aby uzyskać szacunkową cenę rynkową.")
 
-# 📋 Formularz danych
 with st.form("car_form"):
     col1, col2 = st.columns(2)
 
@@ -74,7 +73,7 @@ with st.form("car_form"):
 
     submitted = st.form_submit_button("🔍 Oszacuj wartość")
 
-# 🔮 Predykcja
+
 if submitted:
     input_data = pd.DataFrame(
         [
@@ -97,7 +96,6 @@ if submitted:
         ]
     )
 
-    # ✅ Sprawdzenie, czy kolumny się zgadzają
     try:
         required_columns = predictor.feature_metadata.get_features()
         missing_cols = [
@@ -109,15 +107,13 @@ if submitted:
         else:
             with st.spinner("Obliczanie szacunkowej wartości..."):
                 prediction = predictor.predict(input_data)
-                # Zaokrąglanie do liczby całkowitej bez przecinków
                 predicted_value = int(
                     round(prediction.values[0])
-                )  # Usuwanie części dziesiętnej
+                )
                 st.success(f"💰 Szacunkowa wartość pojazdu: **{predicted_value} USD**")
     except Exception as e:
         st.error(f"Wystąpił błąd podczas predykcji: {e}")
 
-# ℹ️ Sidebar info
 st.sidebar.header("ℹ️ O aplikacji")
 st.sidebar.write(
     """
