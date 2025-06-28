@@ -1,8 +1,35 @@
+import os
+from datetime import datetime
+
 import pandas as pd
 import streamlit as st
 from autogluon.common import TabularDataset
 from autogluon.tabular import TabularPredictor
+from azure.storage.blob import BlobServiceClient
 from sklearn.model_selection import train_test_split
+
+AZURE_CONN_STR = os.getenv("AZURE_CONN_STR")
+CONTAINER_NAME = os.getenv("CONTAINER_NAME")
+
+blob_service_client = BlobServiceClient.from_connection_string(AZURE_CONN_STR)
+container_client = blob_service_client.get_container_client(CONTAINER_NAME)
+
+
+def log_query_to_blob(input_df: pd.DataFrame):
+    input_df["query_time"] = datetime.utcnow().isoformat()
+
+    csv_data = input_df.to_csv(index=False, header=False)
+
+    blob_name = f"queries_{datetime.utcnow().strftime('%Y-%m-%d')}.csv"
+
+    blob_client = container_client.get_blob_client(blob_name)
+
+    try:
+        blob_client.create_append_blob()
+    except Exception:
+        pass
+    blob_client.append_block(csv_data)
+
 
 train = False
 
@@ -35,6 +62,8 @@ if train:
         excluded_model_types=["RF", "XT"],
     )
 
+
+# for require_version_match=False
 predictor = TabularPredictor.load("models")
 
 st.set_page_config(page_title="AI Wycena Samochodu", page_icon="🚗")
@@ -110,7 +139,7 @@ if submitted:
             }
         ]
     )
-
+    log_query_to_blob(input_data)
     try:
         required_columns = predictor.feature_metadata.get_features()
         missing_cols = [
