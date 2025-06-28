@@ -3,21 +3,19 @@ from datetime import datetime
 
 import pandas as pd
 import streamlit as st
-from azure.storage.blob import BlobServiceClient
 from autogluon.common import TabularDataset
 from autogluon.tabular import TabularPredictor
+from azure.storage.blob import BlobServiceClient
 from sklearn.model_selection import train_test_split
 
-
-AZURE_CONN_STR = os.getenv('AZURE_CONN_STR')
-CONTAINER_NAME = os.getenv('CONTAINER_NAME')
+AZURE_CONN_STR = os.getenv("AZURE_CONN_STR")
+CONTAINER_NAME = os.getenv("CONTAINER_NAME")
 
 blob_service_client = BlobServiceClient.from_connection_string(AZURE_CONN_STR)
 container_client = blob_service_client.get_container_client(CONTAINER_NAME)
 
 
 def log_query_to_blob(input_df: pd.DataFrame):
-
     input_df["query_time"] = datetime.utcnow().isoformat()
 
     csv_data = input_df.to_csv(index=False, header=False)
