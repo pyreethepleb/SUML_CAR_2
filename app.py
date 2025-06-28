@@ -64,6 +64,8 @@ if train:
         excluded_model_types=["RF", "XT"],
     )
 
+
+# for require_version_match=False
 predictor = TabularPredictor.load("models")
 
 st.set_page_config(page_title="AI Wycena Samochodu", page_icon="🚗")
